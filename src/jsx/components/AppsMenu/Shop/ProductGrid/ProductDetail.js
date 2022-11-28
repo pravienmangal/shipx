@@ -1,23 +1,20 @@
 import React, { useState } from "react";
-import { Button, Modal, Nav, Tab } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import classnames from 'classnames';
-import {Dropdown} from 'react-bootstrap';
 import { SRLWrapper } from "simple-react-lightbox";
-import swal from "sweetalert";
-import {nanoid} from 'nanoid';
 
-import user from '../../../../../images/pic1.jpg';
 import product4 from "../../../../../images/product/4.jpg";
-import profile01 from "../../../../../images/profile/1.jpg";
 import profile02 from "../../../../../images/profile/2.jpg";
 import profile03 from "../../../../../images/profile/3.jpg";
 import profile04 from "../../../../../images/profile/4.jpg";
-import profile05 from "../../../../../images/profile/5.jpg";
 
-const productBlog = [
-	{id:1 , image: product4, name:'Fillow Company Profile Website Phase 0.1', profile: 'BL003 DRESS01',},
-];
+const productBlog =
+	{
+		id:1, 
+		image: product4,
+		name:'Fillow Company Profile Website Phase 0.1',
+		profile: 'BL003 DRESS01'
+	};
 
 const ProductDetail = () => {
   const options = {
@@ -25,77 +22,9 @@ const ProductDetail = () => {
       overlayColor: "#000000",
     },
   };
-	const [addCard, setAddCard] = useState(false);
-	const [products, setProducts] = useState(productBlog);
 
-	// delete data  
-	const handleDeleteClick = (productId) => {
-		const newProducts = [...products];    
-		const index = products.findIndex((product)=> product.id === productId);
-		newProducts.splice(index, 1);
-		setProducts(newProducts);
-	}
-	//For Image upload in ListBlog
-	const [file, setFile] = React.useState(null)
-  const fileHandler = (e) => {
-    setFile(e.target.files[0]);
-		setTimeout(function(){
-			var src = document.getElementById("saveImageFile").getAttribute("src");
-			addFormData.image = src; 
-		}, 200);
-  }
-    
-	//Add data 
-	const [addFormData, setAddFormData ] = useState({
-		name:'',
-		profile:'',
-		image:'',
-	}); 
-	
-	// Add Product function
-	const handleAddFormChange = (event) => {
-		event.preventDefault();    
-		const fieldName = event.target.getAttribute('name');
-		const fieldValue = event.target.value;
-		const newFormData = {...addFormData};
-		newFormData[fieldName] = fieldValue;
-		setAddFormData(newFormData);
-	};
-	
-	 //Add Submit data
-	const handleAddFormSubmit = (event)=> {
-		event.preventDefault();
-		var error = false;
-		var errorMsg = '';
-		if(addFormData.name === ""){
-			error = true;
-			errorMsg = 'Please fill Name';
-		}else if(addFormData.profile === ""){
-			error = true;
-			errorMsg = 'Please fill profile.';
-		}
-		else if(addFormData.image === ""){
-			error = true;
-			errorMsg = 'Please attached image';
-		}
-		if(!error){
-			const newProduct = {
-				id: nanoid(),
-				name: addFormData.name,
-				profile:  addFormData.profile,
-				image: addFormData.image,
-			};
-			const newProducts = [...products, newProduct];
-			setProducts(newProducts);
-			setAddCard(false);
-			swal('Good job!', 'Successfully Added', "success");
-			addFormData.name = addFormData.profile = addFormData.image  = '';         
-			
-		}else{
-			swal('Oops', errorMsg, "error");
-		}
-	}; 
-	
+	const [product, setProduct] = useState(productBlog);
+
 	//Edit Modal
 	const [editModal, setEditModal] = useState(false);
     
@@ -135,16 +64,8 @@ const ProductDetail = () => {
 	// edit form data submit
 	const handleEditFormSubmit = (event) => {
 	    event.preventDefault();
-	    const editedProduct = {
-	        id: editProductId,
-	        name: editFormData.name,
-	        profile: editFormData.profile,
-					image: editFormData.image,
-	    }
-	    const newProducts = [...products];
-	    const index = products.findIndex((product)=> product.id === editProductId);
-	    newProducts[index] = editedProduct;
-	    setProducts(newProducts);
+	    const newProduct = editFormData;
+	    setProduct(newProduct);
 	    setEditProductId(null);
 	    setEditModal(false);    
 	}
@@ -206,7 +127,6 @@ const ProductDetail = () => {
 										<img className="img-fluid" src={product4} alt="" />
 									</div>
 								</div>	
-							{products.map((product,index)=>(
 								<div className="mb-3 col-sm-9">
 									<h4 className="fs-24 font-w700">{product.name}</h4>
 									<span className="d-block fs-22 font-w500">SKU: BL003 DRESS01</span>
@@ -218,7 +138,6 @@ const ProductDetail = () => {
 										</div>
 									</div>
 								</div>
-							))}
 							</div>
 						</div>
 					</div>
