@@ -27,14 +27,10 @@ const ProductDetail = () => {
 
 	//Edit Modal
 	const [editModal, setEditModal] = useState(false);
-    
-  // Edit function editable page loop
-  const [editProductId, setEditProductId] = useState(null);
- 
+
   // Edit function button click to edit
-  const handleEditClick = ( event, product) => {
+  const handleEditClick = ( event ) => {
       event.preventDefault();
-      setEditProductId(product.id);
       const formValues = {
           name: product.name,
           profile: product.profile,
@@ -66,7 +62,6 @@ const ProductDetail = () => {
 	    event.preventDefault();
 	    const newProduct = editFormData;
 	    setProduct(newProduct);
-	    setEditProductId(null);
 	    setEditModal(false);    
 	}
 
@@ -134,7 +129,7 @@ const ProductDetail = () => {
 									<div className="d-flex align-items-center mt-4 flex-wrap">
 										<div className="invite mb-3">
 											<Link to={"#"} className="btn btn-primary light btn-rounded btn-md me-2 mb-2"><i className="fas fa-plus me-3 scale5"></i>Create Order</Link>
-											<Link onClick={(event) => handleEditClick(event, product)} className="btn btn-outline-light btn-rounded btn-md me-2 mb-2"><i className="far fa-edit me-2 scale2"></i>Edit</Link>
+											<Link onClick={(event) => handleEditClick(event)} className="btn btn-outline-light btn-rounded btn-md me-2 mb-2"><i className="far fa-edit me-2 scale2"></i>Edit</Link>
 										</div>
 									</div>
 								</div>
