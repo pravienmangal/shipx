@@ -1,4 +1,7 @@
-import { SET_PRODUCTS_ACTION } from "../actions/ProductTypes";
+import {
+  SET_PRODUCTS_ACTION,
+  SET_SELECTED_PRODUCT_ID,
+} from "../actions/ProductTypes";
 
 import product1 from "../../images/product/4.jpg";
 import pic2 from "../../images/pic2.jpg";
@@ -46,6 +49,7 @@ const initialState = {
     },
     { id: 12, image: pic5, name: "Zaire Lubin", profile: "Beep Beep Inc." },
   ],
+  selectedProductId: 0
 };
 
 export default function ProductsReducer(state = initialState, action) {
@@ -58,6 +62,13 @@ export default function ProductsReducer(state = initialState, action) {
       };
       return updatedState;
     
+    case SET_SELECTED_PRODUCT_ID:
+      return {
+        ...state,
+        ...state.productState,
+        selectedProductId: action.id,
+      };
+
     default:
       return state
   }

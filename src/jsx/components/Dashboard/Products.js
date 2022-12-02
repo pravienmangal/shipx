@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { Dropdown, Modal } from "react-bootstrap";
 import swal from "sweetalert";
 import { nanoid } from "nanoid";
-import { setProductsAction } from "../../../store/actions/ProductActions";
+import {
+  setProductsAction,
+  setSelectedProductIdAction,
+} from "../../../store/actions/ProductActions";
 import { useDispatch } from "react-redux";
 import { useStateValue } from "../../../store/selectors/useStateValue";
 
@@ -15,7 +18,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const { products } = useStateValue();
 
-  const [addCard, setAddCard] = useState(false);
+	const [addCard, setAddCard] = useState(false);
   const [productsData, setProducts] = useState(products.productsState);
 
   // delete data
@@ -95,6 +98,7 @@ const Products = () => {
     event.preventDefault();
     setEditProductId(product.id);
     const formValues = {
+			id: product.id,
       name: product.name,
       profile: product.profile,
       image: product.image,
@@ -139,6 +143,10 @@ const Products = () => {
     setEditProductId(null);
     setEditModal(false);
   };
+
+	const handleSelectedProductId = (id) => {
+		dispatch(setSelectedProductIdAction(id));
+	}
 
   return (
     <>
@@ -391,7 +399,8 @@ const Products = () => {
                     <div className="media-body user-meta-info">
                       <h6 className="fs-18 font-w600 my-1">
                         <Link
-                          to={"/product-detail"}
+													onClick={() => handleSelectedProductId(product.id)}
+                          to={`/product-detail/${product.id}`}
                           className="text-black user-name"
                           data-name="Alan Green"
                         >

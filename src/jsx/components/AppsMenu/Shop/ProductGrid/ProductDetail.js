@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { SRLWrapper } from "simple-react-lightbox";
+import { useDispatch } from "react-redux";
+import { useStateValue } from "../../../../../store/selectors/useStateValue";
+import { setProductsAction } from "../../../../../store/actions/ProductActions";
 
-import product4 from "../../../../../images/product/4.jpg";
 import profile02 from "../../../../../images/profile/2.jpg";
 import profile03 from "../../../../../images/profile/3.jpg";
 import profile04 from "../../../../../images/profile/4.jpg";
-
-const productBlog = {
-  id: 1,
-  image: product4,
-  name: "Fillow Company Profile Website Phase 0.1",
-  profile: "BL003 DRESS01",
-};
 
 const ProductDetail = () => {
   const options = {
@@ -22,15 +17,26 @@ const ProductDetail = () => {
     },
   };
 
-  const [product, setProduct] = useState(productBlog);
+  const dispatch = useDispatch();
+  const { products } = useStateValue();
 
+  const [productsData, setProductData] = useState(products.productsState);
+  const newProducts = [...productsData];
+  const selectedProduct = newProducts.filter(
+    (product) => product.id === products.selectedProductId
+  );
+
+  const [product, setProduct] = useState(selectedProduct[0]);
+  const [editProductId, setEditProductId] = useState(null);
   //Edit Modal
   const [editModal, setEditModal] = useState(false);
 
   // Edit function button click to edit
   const handleEditClick = (event) => {
     event.preventDefault();
+    setEditProductId(product.id);
     const formValues = {
+      id: product.id,
       name: product.name,
       profile: product.profile,
       image: product.image,
@@ -60,7 +66,14 @@ const ProductDetail = () => {
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
     const newProduct = editFormData;
+    const newProducts = [...productsData];
+    const index = productsData.findIndex(
+      (product) => product.id === editProductId
+    );
+    newProducts[index] = newProduct;
     setProduct(newProduct);
+    setProductData(newProducts);
+    dispatch(setProductsAction(newProducts));
     setEditModal(false);
   };
 
@@ -149,7 +162,7 @@ const ProductDetail = () => {
               <div className="d-flex flex-wrap">
                 <div className="mb-3 col-sm-2">
                   <div className="me-3">
-                    <img className="img-fluid" src={product4} alt="" />
+                    <img className="img-fluid" src={product.image} alt="" />
                   </div>
                 </div>
                 <div className="mb-3 col-sm-9">
