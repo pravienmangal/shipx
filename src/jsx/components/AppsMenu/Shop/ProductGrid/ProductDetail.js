@@ -32,9 +32,9 @@ const ProductDetail = () => {
   const handleEditClick = ( event ) => {
       event.preventDefault();
       const formValues = {
-          name: product.name,
-          profile: product.profile,
-					image: product.image,
+				name: product.name,
+				profile: product.profile,
+				image: product.image,
       }
       setEditFormData(formValues);
       setEditModal(true);
@@ -42,27 +42,27 @@ const ProductDetail = () => {
     
   // edit  data  
   const [editFormData, setEditFormData] = useState({
-      name:'',
-      profile:'',
-			image:'',
+		name:'',
+		profile:'',
+		image:'',
   })
     
 	//update data function
 	const handleEditFormChange = (event) => {
-	    event.preventDefault();   
-	    const fieldName = event.target.getAttribute('name');
-	    const fieldValue = event.target.value;
-	    const newFormData = {...editFormData};
-	    newFormData[fieldName] = fieldValue;
-	    setEditFormData(newFormData);
+		event.preventDefault();
+		const fieldName = event.target.getAttribute('name');
+		const fieldValue = event.target.value;
+		const newFormData = {...editFormData};
+		newFormData[fieldName] = fieldValue;
+		setEditFormData(newFormData);
 	};
     
 	// edit form data submit
 	const handleEditFormSubmit = (event) => {
-	    event.preventDefault();
-	    const newProduct = editFormData;
-	    setProduct(newProduct);
-	    setEditModal(false);    
+		event.preventDefault();
+		const newProduct = editFormData;
+		setProduct(newProduct);
+		setEditModal(false);
 	}
 
   return (
@@ -124,7 +124,7 @@ const ProductDetail = () => {
 								</div>	
 								<div className="mb-3 col-sm-9">
 									<h4 className="fs-24 font-w700">{product.name}</h4>
-									<span className="d-block fs-22 font-w500">SKU: BL003 DRESS01</span>
+									<span className="d-block fs-22 font-w500">{product.profile}</span>
 									<h3 className="d-block fs-18 font-w600">ASIN: B066HH99HH9</h3>
 									<div className="d-flex align-items-center mt-4 flex-wrap">
 										<div className="invite mb-3">
