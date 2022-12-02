@@ -3,21 +3,17 @@ import { Link } from "react-router-dom";
 import { Dropdown, Modal } from "react-bootstrap";
 import swal from "sweetalert";
 import { nanoid } from "nanoid";
-import {
-  setProductsAction,
-} from "../../../store/actions/ProductActions";
+import { setProductsAction } from "../../../store/actions/ProductActions";
 import { useDispatch } from "react-redux";
 import { useStateValue } from "../../../store/selectors/useStateValue";
 
-
-import SubTitle from "../Dashboard/TestComponent"
+import SubTitle from "../Dashboard/TestComponent";
 
 import user from "./../../../images/pic1.jpg";
 
-
 const Products = () => {
-	const dispatch = useDispatch();
-	const { products } = useStateValue();
+  const dispatch = useDispatch();
+  const { products } = useStateValue();
 
   const [addCard, setAddCard] = useState(false);
   const [productsData, setProducts] = useState(products.productsState);
@@ -139,7 +135,7 @@ const Products = () => {
     );
     newProducts[index] = editedProduct;
     setProducts(newProducts);
-		dispatch(setProductsAction(newProducts));
+    dispatch(setProductsAction(newProducts));
     setEditProductId(null);
     setEditModal(false);
   };
