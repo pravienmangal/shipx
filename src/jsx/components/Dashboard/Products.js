@@ -18,16 +18,31 @@ const Products = () => {
   const dispatch = useDispatch();
   const { products } = useStateValue();
 
-	const [addCard, setAddCard] = useState(false);
+  const [addCard, setAddCard] = useState(false);
   const [productsData, setProducts] = useState(products.productsState);
 
   // delete data
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState(null);
+
   const handleDeleteClick = (productId) => {
     const newProducts = [...productsData];
-    const index = productsData.findIndex((product) => product.id === productId);
-    newProducts.splice(index, 1);
-    setProducts(newProducts);
+    const selectedProduct = newProducts.find(
+      (product) => product.id === productId
+    );
+    setDeleteProduct(selectedProduct);
+    setDeleteModal(true);
   };
+
+  // delete data submit
+  const handleDeleteSubmit = () => {
+    const newProducts = [...productsData];
+    const updatedProducts = newProducts.filter((product) => product.id !== deleteProduct.id);
+    setProducts(updatedProducts);
+    dispatch(setProductsAction(updatedProducts));
+    setDeleteModal(false);
+  };
+
   //For Image upload in ListBlog
   const [file, setFile] = React.useState(null);
   const fileHandler = (e) => {
@@ -98,7 +113,7 @@ const Products = () => {
     event.preventDefault();
     setEditProductId(product.id);
     const formValues = {
-			id: product.id,
+      id: product.id,
       name: product.name,
       profile: product.profile,
       image: product.image,
@@ -144,9 +159,9 @@ const Products = () => {
     setEditModal(false);
   };
 
-	const handleSelectedProductId = (id) => {
-		dispatch(setSelectedProductIdAction(id));
-	}
+  const handleSelectedProductId = (id) => {
+    dispatch(setSelectedProductIdAction(id));
+  };
 
   return (
     <>
@@ -323,6 +338,39 @@ const Products = () => {
               </div>
             </form>
           </Modal>
+          <Modal
+            className="modal fade"
+            show={deleteModal}
+            onHide={setDeleteModal}
+          >
+            <div className="modal-header">
+              <h4 className="modal-title fs-20">
+                Are you sure you want to delete <b>{deleteProduct?.name}</b>?
+              </h4>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setDeleteModal(false)}
+                data-dismiss="modal"
+              ></button>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="submit"
+                onClick={handleDeleteSubmit}
+                className="btn btn-danger"
+              >
+                <i className="flaticon-delete-1"></i> Delete
+              </button>
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={() => setDeleteModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
       <div className="row">
@@ -399,7 +447,7 @@ const Products = () => {
                     <div className="media-body user-meta-info">
                       <h6 className="fs-18 font-w600 my-1">
                         <Link
-													onClick={() => handleSelectedProductId(product.id)}
+                          onClick={() => handleSelectedProductId(product.id)}
                           to={`/product-detail/${product.id}`}
                           className="text-black user-name"
                           data-name="Alan Green"

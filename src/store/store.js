@@ -14,7 +14,7 @@ const reducers = combineReducers({
     posts: PostsReducer,
     products: ProductsReducer,
     auth: AuthReducer,
-		todoReducers,
+    todoReducers,
 	//form: reduxFormReducer,	
 	
 });
