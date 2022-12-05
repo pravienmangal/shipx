@@ -1,5 +1,6 @@
 import { applyMiddleware, combineReducers, compose,createStore,} from 'redux';
 import PostsReducer from './reducers/PostsReducer';
+import ProductsReducer from './reducers/ProductsReducer';
 import thunk from 'redux-thunk';
 import { AuthReducer } from './reducers/AuthReducer';
 import todoReducers from './reducers/Reducers';
@@ -11,8 +12,9 @@ const composeEnhancers =
 
 const reducers = combineReducers({
     posts: PostsReducer,
+    products: ProductsReducer,
     auth: AuthReducer,
-		todoReducers,
+    todoReducers,
 	//form: reduxFormReducer,	
 	
 });
